@@ -25,40 +25,38 @@ const NavOptions = () => {
     const origin = useSelector(selectOrigin);
 
     return (
-        <View>
-            <FlatList
-                data={data}
-                keyExtractor={(item) => item.id}
-                horizontal
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        className="p-2 pl-6 pb-8 pt-4 bg-gray-200 m-2 w-40"
-                        onPress={() => navigation.navigate(item.screen)}
-                        disabled={!origin}
-                    >
-                        <View style={{ opacity: origin ? 1 : 0.2 }}>
-                            <Image
-                                style={{ width: 120, height: 120, resizeMode: "contain" }}
-                                source={{ uri: item.image }}
-                            />
-                            <Text className="mt-2 text-lg font-semibold">{item.title}</Text>
-                            <Icon
-                                name="arrowright"
-                                type="antdesign"
-                                color="white"
-                                style={{
-                                    padding: 8,
-                                    backgroundColor: "black",
-                                    borderRadius: 100,
-                                    width: 40,
-                                    marginTop: 12,
-                                }}
-                            />
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-        </View>
+        <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            horizontal
+            renderItem={({ item }) => (
+                <TouchableOpacity
+                    className="p-2 pl-6 pb-8 pt-4 bg-gray-200 m-2 w-40"
+                    onPress={() => navigation.navigate(item.screen)}
+                    disabled={!origin}
+                >
+                    <View style={{ opacity: origin ? 1 : 0.2 }}>
+                        <Image
+                            style={{ width: 120, height: 120, resizeMode: "contain" }}
+                            source={{ uri: item.image }}
+                        />
+                        <Text className="mt-2 text-lg font-semibold">{item.title}</Text>
+                        <Icon
+                            name="arrowright"
+                            type="antdesign"
+                            color="white"
+                            style={{
+                                padding: 8,
+                                backgroundColor: "black",
+                                borderRadius: 100,
+                                width: 40,
+                                marginTop: 12,
+                            }}
+                        />
+                    </View>
+                </TouchableOpacity>
+            )}
+        />
     );
 };
 

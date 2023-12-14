@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -16,11 +17,17 @@ export default function App() {
         <Provider store={store}>
             <NavigationContainer>
                 <SafeAreaProvider>
-                    <Stack.Navigator screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="Home" component={HomeScreen} />
-                        <Stack.Screen name="Map" component={MapScreen} />
-                        <Stack.Screen name="Eats" component={EatsScreen} />
-                    </Stack.Navigator>
+                    <KeyboardAvoidingView
+                        className="flex-1"
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
+                    >
+                        <Stack.Navigator screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="Home" component={HomeScreen} />
+                            <Stack.Screen name="Map" component={MapScreen} />
+                            <Stack.Screen name="Eats" component={EatsScreen} />
+                        </Stack.Navigator>
+                    </KeyboardAvoidingView>
                 </SafeAreaProvider>
             </NavigationContainer>
         </Provider>

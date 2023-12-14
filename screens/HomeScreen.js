@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, SafeAreaView, Image } from "react-native";
+import { View, Text, SafeAreaView, Image, TouchableOpacity } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useDispatch, useSelector } from "react-redux";
 
 import NavOptions from "../components/NavOptions";
 import { setDestination, setOrigin } from "../slices/navSlice";
+import NavFavorites from "../components/NavFavorites";
+import { Icon } from "@rneui/base";
 
 // secret key
 const GOOGLE_MAPS_APIKEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -55,6 +57,7 @@ const HomeScreen = () => {
 
                 {/* App Navigation Options */}
                 <NavOptions />
+                <NavFavorites />
             </View>
         </SafeAreaView>
     );
