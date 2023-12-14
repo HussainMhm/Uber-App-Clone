@@ -2,6 +2,8 @@ import { View, Text, SafeAreaView, TouchableOpacity, FlatList, Image } from "rea
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Icon } from "@rneui/base";
+import { useSelector } from "react-redux";
+import { selectTravelTimeInformation } from "../slices/navSlice";
 
 const data = [
     {
@@ -24,9 +26,13 @@ const data = [
     },
 ];
 
+// If we have SURGE pricing, this goes up
+const SURGE_CHARGE_RATE = 1.5;
+
 const RideOptionsCard = () => {
     const navigation = useNavigation();
     const [selected, setSelected] = useState(null);
+    const travelTimeInformation = useSelector(selectTravelTimeInformation);
 
     return (
         <SafeAreaView className="bg-white flex-grow">
@@ -37,7 +43,9 @@ const RideOptionsCard = () => {
                 >
                     <Icon name="chevron-left" type="font-awesome" />
                 </TouchableOpacity>
-                <Text className="text-center text-xl py-5">Select a Ride</Text>
+                <Text className="text-center text-xl py-5">
+                    Select a Ride - {travelTimeInformation?.distance.text}
+                </Text>
             </View>
 
             <FlatList
@@ -59,11 +67,21 @@ const RideOptionsCard = () => {
                             }}
                             source={{ uri: item.image }}
                         />
-                        <View>
+                        <View className="flex-1 ml-6">
                             <Text className="text-xl font-semibold">{item.title}</Text>
-                            <Text>Travel time...</Text>
+                            <Text>{travelTimeInformation?.duration.text}</Text>
                         </View>
-                        <Text className="text-xl">$99</Text>
+                        <Text className="text-xl">
+                            {new Intl.NumberFormat("en-us", {
+                                style: "currency",
+                                currency: "USD",
+                            }).format(
+                                (travelTimeInformation?.duration.value *
+                                    SURGE_CHARGE_RATE *
+                                    item.multiplier) /
+                                    100
+                            )}
+                        </Text>
                     </TouchableOpacity>
                 )}
             />
@@ -72,6 +90,7 @@ const RideOptionsCard = () => {
                 <TouchableOpacity
                     disabled={!selected}
                     className={"bg-black py-3 my-3 mx-5 " + (!selected && "bg-gray-300")}
+                    onPress={() => navigation.navigate("FindingDriver")}
                 >
                     <Text className="text-center text-white text-lg">Choose {selected?.title}</Text>
                 </TouchableOpacity>
